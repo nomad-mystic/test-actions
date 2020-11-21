@@ -1,0 +1,61 @@
+name: Test Node process in workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened]
+
+jobs:
+  create_and_update_multidev_environment:
+    name: Test Node process in workflow
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.2]
+        node_version: [14]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Test @actions/core functionality
+        if: github.event_name == 'pull_request'
+        run: |
+
+          # Intall our dependencies
+          cd ${GITHUB_WORKSPACE}/.github/utils && npm install
+
+          # Run our script
+          cd ${GITHUB_WORKSPACE}/.github/utils && sudo npm run test:actions:process
+
+
+      - name: Test access to env varaible
+        run: |
+          echo "env.TEST_VARIABLE"
+          echo "${{ env.TEST_VARIABLE }}"
+          echo ${{ env.TEST_VARIABLE }}
+
+      - name: Display GitHub environment variables (DEBUG)
+        # @link https://github.com/launchdarkly/find-code-references/issues/1
+        run: |
+          echo ${GITHUB_REF}
+          echo ${GITHUB_SHA}
+          echo "--------Github Context----------"
+          echo ${{github.head_ref}}
+          echo ${{github.base_ref}}
+          echo ${{github.ref}}
+          echo ${{github.commit_id}}
+          echo ${{github.github.event}}
+          echo ${{github.event_name}}
+
+          echo "--------Github Helpers----------"
+          echo ${GITHUB_WORKSPACE}
+          echo ${HOME}
+          cd ${HOME} && ls -al
+          echo ${GITHUB_WORKSPACE}
+          cd ${GITHUB_WORKSPACE} && ls -al
+          exit 0

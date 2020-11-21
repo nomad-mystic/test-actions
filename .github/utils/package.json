@@ -1,0 +1,15 @@
+{
+  "name": "testing-github-actions-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:actions:process": "node ./test-actions.js"
+  },
+  "author": "Keith Murphy",
+  "license": "ISC",
+  "devDependencies": {
+    "@actions/core": "^1.2.6"
+  }
+}
