@@ -30,7 +30,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}/.github/utils && npm install
 
           # Run our script
-          cd ${GITHUB_WORKSPACE}/.github/utils && sudo npm run test:actions:process
+          cd ${GITHUB_WORKSPACE}/.github/utils && npm run test:actions:process
 
 
       - name: Test access to env varaible
